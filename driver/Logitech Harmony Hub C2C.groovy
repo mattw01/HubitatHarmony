@@ -9,6 +9,7 @@ metadata {
 		capability "Media Controller"
         capability "Refresh"
 		capability "Health Check"
+		capability "Switch"
         
         command "activityoff"   
         command "alloff" 
@@ -52,6 +53,15 @@ def installed() {
 def updated() {
 	log.debug "updated()"
 	initialize()
+}
+
+def on() {
+    log.debug "ON called - no action taken"
+}
+
+def off() {
+    log.debug "OFF called - redirecting to alloff()"
+    alloff()
 }
 
 def startActivity(String activityId) {
