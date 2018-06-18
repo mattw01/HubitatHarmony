@@ -46,10 +46,10 @@ definition(
     name: "Logitech Harmony (Connect)",
     namespace: "smartthings",
     author: "SmartThings",
-    description: "Allows you to integrate your Logitech Harmony account with SmartThings.",
+    description: "Allows you to integrate your Logitech Harmony account with Hubitat.",
     category: "SmartThings Labs",
-    iconUrl: "https://s3.amazonaws.com/smartapp-icons/Partner/harmony.png",
-    iconX2Url: "https://s3.amazonaws.com/smartapp-icons/Partner/harmony%402x.png",
+    iconUrl: "",
+    iconX2Url: "",
     oauth: [displayName: "Logitech Harmony", displayLink: "http://www.logitech.com/en-us/harmony-remotes"],
     singleInstance: true
 ){
@@ -277,13 +277,13 @@ def discovery() {
 		uri: url,
 		contentType: 'application/json'
 	]
-	//asynchttp_v1.get('discoveryResponse', params)
-    httpGet(params) { response -> discoveryResponse(response) }
+	asynchttpGet('discoveryResponse', params, null)
+    //httpGet(params) { response -> discoveryResponse(response) }
     
 	log.trace "Harmony - Discovery Command Sent"
 }
 
-def discoveryResponse(response) {
+def discoveryResponse(response, data) {
 	if (response.status != 200) {
 		log.error "Harmony - response has error: $response.errorMessage"
 		if (response.status == 401) { // token is expired
@@ -352,12 +352,12 @@ def activity(dni,mode) {
 		uri: url,
 		contentType: 'application/json'
 	]
-	//asynchttp_v1.post('activityResponse', params)
-    httpPost(params) { response -> activityResponse(response) }
+	asynchttpPost('activityResponse', params, null)
+    //httpPost(params) { response -> activityResponse(response) }
 	log.trace "Harmony - Command Sent"
 }
 
-def activityResponse(response) {
+def activityResponse(response, data) {
 	if (response.status != 200) {
 		log.error "Harmony - response has error: $response.errorMessage"
 		if (response.status == 401) { // token is expired
@@ -383,15 +383,15 @@ def poll() {
             headers: ["Accept": "application/json"],
             contentType: 'application/json'
         ]
-        //asynchttp_v1.get('pollResponse', params)
-        httpGet(params) { response -> pollResponse(response) }
+        asynchttpGet('pollResponse', params, null)
+        //httpGet(params) { response -> pollResponse(response) }
         
       } else {
         log.warn "Harmony - Access token has expired"
       }
 }
 
-def pollResponse(response) {
+def pollResponse(response, data) {
 	if (response.status != 200) {
 	    log.error "Harmony - response has error: $response.errorMessage"
 	    if (response.status == 401) { // token is expired
@@ -470,14 +470,14 @@ def getActivityList() {
 			uri: url,
 			contentType: 'application/json'
 		]
-        //asynchttp_v1.get('getActivityListResponse', params)
-        httpGet(params) { response ->  getActivityListResponse(response) }
+        asynchttpGet('getActivityListResponse', params, null)
+        //httpGet(params) { response ->  getActivityListResponse(response) }
         
 		log.trace "Harmony - Activity List Request Sent"
 	}
 }
 
-def getActivityListResponse(response) {
+def getActivityListResponse(response, data) {
 	if (response.status != 200) {
 		log.error "Harmony - response has error: $response.errorMessage"
 		if (response.status == 401) { // token is expired
