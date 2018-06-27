@@ -60,8 +60,8 @@ def on() {
 }
 
 def off() {
-    log.debug "OFF called - redirecting to alloff()"
-    alloff()
+    log.debug "OFF called - redirecting to activityoff()"
+    activityoff()
 }
 
 def startActivity(String activityId) {
