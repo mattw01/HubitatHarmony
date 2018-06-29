@@ -277,13 +277,13 @@ def discovery() {
 		uri: url,
 		contentType: 'application/json'
 	]
-	asynchttpGet('discoveryResponse', params, null)
-    //httpGet(params) { response -> discoveryResponse(response) }
+	//asynchttp_v1.get('discoveryResponse', params)
+    httpGet(params) { response -> discoveryResponse(response) }
     
 	log.trace "Harmony - Discovery Command Sent"
 }
 
-def discoveryResponse(response, data) {
+def discoveryResponse(response) {
 	if (response.status != 200) {
 		log.error "Harmony - response has error: $response.errorMessage"
 		if (response.status == 401) { // token is expired
@@ -352,12 +352,12 @@ def activity(dni,mode) {
 		uri: url,
 		contentType: 'application/json'
 	]
-	asynchttpPost('activityResponse', params, null)
-    //httpPost(params) { response -> activityResponse(response) }
+	//asynchttp_v1.post('activityResponse', params)
+    httpPost(params) { response -> activityResponse(response) }
 	log.trace "Harmony - Command Sent"
 }
 
-def activityResponse(response, data) {
+def activityResponse(response) {
 	if (response.status != 200) {
 		log.error "Harmony - response has error: $response.errorMessage"
 		if (response.status == 401) { // token is expired
@@ -383,15 +383,15 @@ def poll() {
             headers: ["Accept": "application/json"],
             contentType: 'application/json'
         ]
-        asynchttpGet('pollResponse', params, null)
-        //httpGet(params) { response -> pollResponse(response) }
+        //asynchttp_v1.get('pollResponse', params)
+        httpGet(params) { response -> pollResponse(response) }
         
       } else {
         log.warn "Harmony - Access token has expired"
       }
 }
 
-def pollResponse(response, data) {
+def pollResponse(response) {
 	if (response.status != 200) {
 	    log.error "Harmony - response has error: $response.errorMessage"
 	    if (response.status == 401) { // token is expired
@@ -470,14 +470,14 @@ def getActivityList() {
 			uri: url,
 			contentType: 'application/json'
 		]
-        asynchttpGet('getActivityListResponse', params, null)
-        //httpGet(params) { response ->  getActivityListResponse(response) }
+        //asynchttp_v1.get('getActivityListResponse', params)
+        httpGet(params) { response ->  getActivityListResponse(response) }
         
 		log.trace "Harmony - Activity List Request Sent"
 	}
 }
 
-def getActivityListResponse(response, data) {
+def getActivityListResponse(response) {
 	if (response.status != 200) {
 		log.error "Harmony - response has error: $response.errorMessage"
 		if (response.status == 401) { // token is expired
